@@ -9,6 +9,9 @@ class Person < ActiveRecord::Base
                     :normalized_address => :location_search,
                     :lang => 'pt-BR'
   
+  # Geocoder gem
+  geocoded_by :latlon
+
   def latlon
     "#{latitude}, #{longitude}"
   end
@@ -21,6 +24,11 @@ class Person < ActiveRecord::Base
   # Marker title on the map
   def gmaps4rails_title
     name
+  end
+
+  # Get 3 closest friends
+  def closest_friends
+    nearbys(200)[0..2]
   end
 
 end

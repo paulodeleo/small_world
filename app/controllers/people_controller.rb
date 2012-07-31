@@ -25,6 +25,7 @@ class PeopleController < ApplicationController
   # GET /people/new.json
   def new
     @person = Person.new #:latitude => "-25.4293918", :longitude => "-49.2720334"
+    @people = Person.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,7 @@ class PeopleController < ApplicationController
   # GET /people/1/edit
   def edit
     @person = Person.find(params[:id])
+    @people = Person.all
   end
 
   # POST /people

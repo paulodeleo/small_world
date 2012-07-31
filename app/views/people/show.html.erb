@@ -6,13 +6,24 @@
 </p>
 
 <p>
-  <b>Latitude:</b>
-  <%= @person.latitude %>
+  <b>Location:</b>
+  <%= @person.latitude %>, <%= @person.longitude %>
+  <%= gmaps(
+      "map_options" => {
+        "id"        => "person_map" },
+      "last_map"    => false, 
+      "markers"     => { "data" => @person.to_gmaps4rails })
+%>
 </p>
 
 <p>
-  <b>Longitude:</b>
-  <%= @person.longitude %>
+  <b>3 closest friends:</b>
+  <%= gmaps(
+      "map_options" => {
+        "id"        => "friends_map" },
+      "scripts"   => :none,
+      "markers" => { "data" => @person.closest_friends.to_gmaps4rails })
+%>
 </p>
 
 

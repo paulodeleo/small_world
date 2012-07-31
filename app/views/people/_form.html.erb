@@ -20,7 +20,7 @@
 
   <div>
     <%= gmaps(
-          "markers" => { "data" => @person.to_gmaps4rails, "options" => { "draggable" => true  } },
+          "markers" => { "data" => @people.to_gmaps4rails, "options" => { "draggable" => true  } },
           "map_options" => {
             "id" => 'map',
             "type" => "HYBRID" }   #valid options: HYBRID, ROADMAP (default), SATELLITE, TERRAIN

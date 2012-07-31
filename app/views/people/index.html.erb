@@ -24,11 +24,6 @@
 
 <br />
 
-<%= link_to 'New Person', new_person_path %>
-
-
-<%#= gmaps4rails(@people.to_gmaps4rails) %>
-
 <%= gmaps(
       "map_options" => {
         "auto_zoom" => true,    #default: true
@@ -37,3 +32,4 @@
       "markers" => { "data" => @people.to_gmaps4rails })
 %>
 
+<%= link_to 'New Person', new_person_path %>
