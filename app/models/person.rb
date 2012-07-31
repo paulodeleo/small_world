@@ -4,10 +4,7 @@ class Person < ActiveRecord::Base
   validates_uniqueness_of :latitude, :longitude, :name
 
   # Gmaps4rails gem
-  acts_as_gmappable :process_geocoding => false,
-                    :check_process => false,
-                    :normalized_address => :location_search,
-                    :lang => 'pt-BR'
+  acts_as_gmappable
   
   # Geocoder gem
   geocoded_by :latlon
