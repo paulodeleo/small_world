@@ -29,7 +29,7 @@
         "auto_zoom" => true,    #default: true
         "zoom" => 18,           #default: 6
         "type" => "HYBRID" },   #valid options: HYBRID, ROADMAP (default), SATELLITE, TERRAIN
-      "markers" => { "data" => @people.to_gmaps4rails })
+      "markers" => { "data" => @people_json })
 %>
 
 <%= link_to 'New Person', new_person_path %>

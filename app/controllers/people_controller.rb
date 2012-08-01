@@ -3,6 +3,9 @@ class PeopleController < ApplicationController
   # GET /people.json
   def index
     @people = Person.all
+    @people_json = Person.all.to_gmaps4rails do |person, marker|
+      marker.infowindow infowindow_partial(person)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,4 +85,13 @@ class PeopleController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  protected
+
+    # Renders partial for person marker infowindow
+    def infowindow_partial(person)
+      render_to_string(:partial => 'person_infowindow', 
+                       :locals  => {:person => person})
+    end
+
 end

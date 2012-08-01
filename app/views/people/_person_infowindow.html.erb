@@ -1,0 +1,9 @@
+<h3><%= person.name %> (<%= "#{person.latlon}" %>)</h3>
+3 closest friends:<br />
+<ol>
+<% person.closest_friends.each do |friend| %>
+  <li>
+    <%= link_to friend.name, friend %> (<%= number_to_human(friend.distance_to(person, :km)) %> Km nearby)
+  </li>
+<% end %>
+</ol>

@@ -25,7 +25,7 @@ class Person < ActiveRecord::Base
 
   # Get 3 closest friends
   def closest_friends
-    nearbys(200)[0..2]
+    nearbys(6371).sort_by {|friend| friend.distance_to(self, :km) }[0..2]
   end
 
 end
