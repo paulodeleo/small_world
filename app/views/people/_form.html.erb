@@ -1,0 +1,85 @@
+<%= form_for(@person) do |f| %>
+  <% if @person.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
+
+      <ul>
+      <% @person.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" id="person_name_input" style="display: none">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <%= f.hidden_field :latitude %>
+  <%= f.hidden_field :longitude %>
+
+  <div>
+    <%= gmaps(
+          "markers" => { "data" => @people.to_gmaps4rails, "options" => { "draggable" => true  } },
+          "map_options" => {
+            "id" => 'map',
+            "type" => "HYBRID" }   #valid options: HYBRID, ROADMAP (default), SATELLITE, TERRAIN
+          )
+    %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+
+<% end %>
+
+
+
+<% content_for :scripts do %>
+<script type="text/javascript" charset="utf-8">
+    var markersArray = [];
+    // On click, clear markers, place a new one, update coordinates in the form
+    Gmaps.map.callback = function() {
+        google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
+          clearOverlays();
+          placeMarker(event.latLng);
+          updateFormLocation(event.latLng);
+        });
+    };
+    // Update form attributes with given coordinates
+    function updateFormLocation(latLng) {
+        $('#person_latitude').val(latLng.lat());
+        $('#person_longitude').val(latLng.lng());
+        //$('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+    }
+    // Add a marker with an open infowindow
+    function placeMarker(latLng) {
+        var marker = new google.maps.Marker({
+            position: latLng, 
+            map: Gmaps.map.serviceObject,
+            draggable: true
+        });
+        markersArray.push(marker);
+        // Set and open infowindow
+        var infowindow = new google.maps.InfoWindow({
+            content: $('#person_name_input').html()
+        });
+        infowindow.open(Gmaps.map.serviceObject,marker);
+        // Listen to drag & drop
+        google.maps.event.addListener(marker, 'dragend', function() {
+            updateFormLocation(this.getPosition());
+        });
+    }
+    // Removes the overlays from the map
+    function clearOverlays() {
+      if (markersArray) {
+        for (var i = 0; i < markersArray.length; i++ ) {
+          markersArray[i].setMap(null);
+        }
+      }
+      markersArray.length = 0;
+    }
+</script>
+<% end %>

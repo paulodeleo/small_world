@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @person.name %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @person.latitude %>, <%= @person.longitude %>
+  <%= gmaps(
+      "map_options" => {
+        "id"        => "person_map" },
+      "last_map"    => false, 
+      "markers"     => { "data" => @person.to_gmaps4rails })
+  %>
+</p>
+
+<p>
+  <b>3 closest friends:</b>
+  <%= gmaps(
+      "map_options" => {
+        "id"        => "friends_map" },
+      "scripts"   => :none,
+      "markers" => { "data" => @person.closest_friends.to_gmaps4rails })
+  %>
+</p>
+
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', people_path %>
